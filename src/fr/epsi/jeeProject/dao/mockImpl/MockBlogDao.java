@@ -15,12 +15,12 @@ import fr.epsi.jeeProject.dao.IUtilisateurDao;
 public class MockBlogDao implements IBlogDao {
 
 	private static List<Blog> listOfBlogs;
-	private IUtilisateurDao utilisateurDao = new MockUtilisateurDao();
-	private IStatutDao statutDao = new MockStatutDao();
-	
+	private final IUtilisateurDao utilisateurDao = new MockUtilisateurDao();
+	private final IStatutDao statutDao = new MockStatutDao();
+
 	@Override
 	public Blog getBlog(Integer id) {
-		for (Blog b : getBlogs()) {
+		for (final Blog b : getBlogs()) {
 			if (b.getId().intValue() == id.intValue()) {
 				return b;
 			}
@@ -30,8 +30,8 @@ public class MockBlogDao implements IBlogDao {
 
 	@Override
 	public List<Blog> getBlogs(Utilisateur utilisateur) {
-		List<Blog> myBlogs = new ArrayList<Blog>();
-		for (Blog b : getBlogs()) {
+		final List<Blog> myBlogs = new ArrayList<Blog>();
+		for (final Blog b : getBlogs()) {
 			if (b.getCreateur().getEmail().equals(utilisateur.getEmail())) {
 				myBlogs.add(b);
 			} else if (b.getStatut().getId().intValue() == IStatutDao.PUBLIE) {
@@ -44,7 +44,7 @@ public class MockBlogDao implements IBlogDao {
 	@Override
 	public Integer createBlog(Blog blog) throws SQLException {
 		int max = 0;
-		for (Blog b : getBlogs()) {
+		for (final Blog b : getBlogs()) {
 			if (b.getId().intValue() > max) {
 				max = b.getId();
 			}
@@ -56,7 +56,7 @@ public class MockBlogDao implements IBlogDao {
 
 	@Override
 	public void updateBlog(Blog blog) throws SQLException {
-		for (Blog b : getBlogs()) {
+		for (final Blog b : getBlogs()) {
 			if (b.getId().intValue() == blog.getId().intValue()) {
 				b.setTitre(blog.getTitre());
 				b.setDescription(blog.getDescription());
@@ -67,7 +67,7 @@ public class MockBlogDao implements IBlogDao {
 
 	@Override
 	public void deleteBlog(Blog blog) throws SQLException {
-		for (Blog b : getBlogs()) {
+		for (final Blog b : getBlogs()) {
 			if (b.getId().intValue() == blog.getId().intValue()) {
 				getBlogs().remove(b);
 				return;
@@ -77,7 +77,7 @@ public class MockBlogDao implements IBlogDao {
 
 	@Override
 	public void addReponse(Blog blog, Reponse reponse) throws SQLException {
-		for (Blog b : getBlogs()) {
+		for (final Blog b : getBlogs()) {
 			if (b.getId().intValue() == blog.getId().intValue()) {
 				if (b.getListOfReponses() == null) {
 					b.setListOfReponses(new ArrayList<Reponse>());
@@ -87,11 +87,11 @@ public class MockBlogDao implements IBlogDao {
 			}
 		}
 	}
-	
+
 	private List<Blog> getBlogs() {
 		if (listOfBlogs == null) {
 			listOfBlogs = new ArrayList<Blog>();
-			Blog blog = new Blog();
+			final Blog blog = new Blog();
 			blog.setId(1);
 			blog.setTitre("First Blog");
 			blog.setDescription("My first blog");
